@@ -1,3 +1,9 @@
+/**
+*  Helper class that hold the Person information
+*
+* @author  Brandon Watts
+* @since   2017-04-24 
+*/
 
 public class Person {
 
