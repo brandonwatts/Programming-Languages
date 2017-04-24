@@ -25,24 +25,21 @@ public class Assignment4 {
 				.map(line -> {String [] l=line.split(",");return new Person(l[0],l[1],l[2],l[3]);} );
 				
 		List<City> listCity = streamCity.collect(Collectors.toList());	
-		
 		List<Person> listPeople = streamPeople.collect(Collectors.toList());
 		
-		Map<String, List<City>> zipByCounty = listCity.stream()
-				.collect(Collectors.groupingBy(p -> p.county);
-		
-		
-		Map<Long, List<Person>> personByZip = listPeople.stream()
+		Map<Long, List<City>> zipByCounty = listCity.stream()
 				.collect(Collectors.groupingBy(p -> p.zip));
 		
+		Map<Object, Double> totalByDept
+        = listPeople.stream()
+                   	.collect(Collectors.groupingBy( p -> zipByCounty.get(p.getZip()).get(0).county,
+                                                  Collectors.averagingDouble(Person::getIncome)));
 		
 		
-		zipByCounty.forEach((zip, p) -> System.out.format("%s: %s\n", zip, p));
 		
-		//personByZip.forEach((zip, p) -> System.out.format(" %s: %s\n", zip, p));
-
-
-
+		listPeople
+		.stream()
+		.map(p -> p.firstName + " " + p.lastName + " " +  (p.income - totalByDept.get(zipByCounty.get(p.zip).get(0).county))+ " " +zipByCounty.get(p.zip).get(0).county)
+		.forEach(p -> System.out.println(p));
 	}
-
 }
